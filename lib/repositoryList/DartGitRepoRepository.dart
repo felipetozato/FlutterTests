@@ -4,6 +4,10 @@ import 'dart:convert' as convert;
 
 class DartGitReporepository {
 
+  DartGitReporepository({this.client});
+
+  final http.Client client;
+
   final String _url = "https://api.github.com/search/repositories?q=language:Dart&sort=stars&page=";
 
   Future<List<GitRepo>> getRepos(int page) async {
@@ -12,7 +16,6 @@ class DartGitReporepository {
       if (res.statusCode == 200) {
         var jsonResponse = convert.jsonDecode(res.body);
         var items = jsonResponse['items'] as List;
-        print("Number of repos: $items.length");
         return items.map((json) => GitRepo.fromJson(json)).toList();
       } {
         print("Request failed with status: ${res.statusCode}.");

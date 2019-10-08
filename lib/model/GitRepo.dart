@@ -2,17 +2,19 @@ import 'User.dart';
 
 class GitRepo {
 
-  GitRepo({this.title, this.description, this.forks, this.stars, this.owner, this.pullRequestsUrl});
+  GitRepo({this.id, this.title, this.description, this.forks, this.stars, this.owner, this.pullRequestsUrl});
 
+  final int id;
   final String title;
   final String description;
   final int forks;
   final int stars;
   final User owner;
-  final pullRequestsUrl;
+  final String pullRequestsUrl;
 
   factory GitRepo.fromJson(Map<String, dynamic> json) {
     return GitRepo(
+      id: json["id"],
       title: json["name"],
       description: json["description"] != null ? json["description"] : "",
       forks: json["forks"],

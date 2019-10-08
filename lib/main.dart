@@ -1,6 +1,7 @@
 import 'package:avocado_test/repositoryList/DartGitRepoRepository.dart';
 import 'package:avocado_test/repositoryList/RepositoryListPage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: RepositoryListPage(repository: DartGitReporepository()),
+      home: RepositoryListPage(repository: DartGitReporepository(client: http.Client())),
     );
   }
 }

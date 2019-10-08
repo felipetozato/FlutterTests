@@ -8,14 +8,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class RepositoryDetailPage extends StatefulWidget {
 
   RepositoryDetailPage({Key key, this.gitRepo}) : super(key: key);
 
   final GitRepo gitRepo;
-  //TODO DI this kind of thing. Better if directly to the Bloc class
-  final PRRepository prRepository = PRRepository();
+
+  //TODO DI this kind of thing. Better if directly to the Bloc class. Not sure if I will have time to mess with DI
+  final PRRepository prRepository = PRRepository(client: http.Client());
 
   @override
   State<StatefulWidget> createState() => _RepositoryDetailPage();

@@ -5,13 +5,16 @@ import 'dart:convert' as convert;
 
 class PRRepository {
 
+  PRRepository({this.client});
+
+  final http.Client client;
+
   Future<List<PullRequest>> getPullRequests(GitRepo repository, int page) async {
     try {
       var url = repository.pullRequestsUrl.replaceAll('{/number}', '') + "?page=$page";
       var res = await http.get(url);
       if (res.statusCode == 200) {
         var jsonResponse = convert.jsonDecode(res.body) as List;
-        print("Number of repos: $jsonResponse.length");
         return jsonResponse.map((json) => PullRequest.fromJson(json)).toList();
       } {
         print("Request failed with status: ${res.statusCode}.");
