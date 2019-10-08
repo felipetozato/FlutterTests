@@ -3,48 +3,69 @@ import 'dart:async';
 import 'package:avocado_test/model/GitRepo.dart';
 import 'package:avocado_test/model/PullRequest.dart';
 import 'package:avocado_test/repositoryDetail/PRRepository.dart';
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
 
-class RepositoryDetailBloc {
+class RepositoryDetailBloc extends Bloc<PullListEvents, PullListState> {
 
-  RepositoryDetailBloc(this._repository, this._gitRepo);
+  RepositoryDetailBloc({@required this.repository, this.gitRepo});
 
-  final PRRepository _repository;
-  final GitRepo _gitRepo;
-  final _listController = StreamController<PullListState>();
-  int _page = 1;
+  final PRRepository repository;
+  final GitRepo gitRepo;
   bool isLoading = false;
 
-  Stream<PullListState> get pullList => _listController.stream;
-  PullListDataState _currentState = PullListDataState([]);
+  PullListDataState _currentState = PullListState._data([], 0);
 
-  void loadPRList() {
+  @override
+  PullListState get initialState => PullListState._loading();
+
+  @override
+  Stream<PullListState> mapEventToState(PullListEvents event) async* {
+    if (event is LoadPullListEvent) {
+      yield* _loadPRList(_currentState);
+    }
+  }
+
+  Stream<PullListState> _loadPRList(PullListDataState currentState) async* {
     isLoading = true;
-    _repository.getPullRequests(_gitRepo, _page).then((list) {
-      if (list != null) {
-        _currentState = PullListState._data(_currentState.list + list);
-        _listController.sink.add(_currentState);
-        _page++;
-      } else {
-        _listController.sink.addError("Error while retrieving repositories");
-      }
-      isLoading = false;
-    });
+    final newPage = currentState.page + 1;
+    final pullList = await repository.getPullRequests(gitRepo, newPage);
+    if (pullList != null) {
+      yield PullListState._data(pullList, newPage);
+    } else {
+      yield PullListState._error();
+    }
+    isLoading = false;
   }
 
-  void dispose() {
-    _listController.close();
-  }
 }
 
-class PullListState {
+
+@immutable
+abstract class PullListState {
   PullListState();
-  factory PullListState._data(List<PullRequest> list) = PullListDataState;
-  factory PullListState._loading() = PullListLoadingstate;
+  factory PullListState._data(List<PullRequest> list, int page) = PullListDataState;
+  factory PullListState._loading() = PullListLoadingState;
+  factory PullListState._error() = PullListError;
 }
 
 class PullListDataState extends PullListState {
-  PullListDataState(this.list);
+  PullListDataState(this.list, this.page);
   final List<PullRequest> list;
+  final int page;
 }
 
-class PullListLoadingstate extends PullListState {}
+class PullListError extends PullListState {
+  final String message = "Unable to get next page";
+}
+
+class PullListLoadingState extends PullListState {}
+
+
+@immutable
+abstract class PullListEvents  {}
+
+class LoadPullListEvent extends PullListEvents {
+  @override
+  String toString() => 'LoadPullList';
+}

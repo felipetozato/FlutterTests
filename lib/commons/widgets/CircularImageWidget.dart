@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CircularImage extends StatelessWidget {
 
-  CircularImage(this.url);
+  CircularImage(this.url, {Key key}) : super(key: key);
 
   final String url;
 

@@ -6,6 +6,7 @@ import 'package:avocado_test/repositoryDetail/PRRepository.dart';
 import 'package:avocado_test/repositoryDetail/RepositoryDetailBloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
@@ -39,8 +40,8 @@ class _RepositoryDetailPage extends State<RepositoryDetailPage> {
 
   @override
   void initState() {
-    _bloc = RepositoryDetailBloc(widget.prRepository, widget.gitRepo);
-    _bloc.loadPRList();
+    _bloc = RepositoryDetailBloc(repository: widget.prRepository, gitRepo: widget.gitRepo);
+    _bloc.dispatch(LoadPullListEvent());
     super.initState();
   }
 
@@ -52,32 +53,28 @@ class _RepositoryDetailPage extends State<RepositoryDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.gitRepo.title),
-          automaticallyImplyLeading: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context),
-          )
-        ),
-        drawer: Drawer(),
-        body: Theme(
-          data: Theme.of(context),
-          child: SafeArea(
-            child: StreamBuilder<PullListState>(stream: _bloc.pullList,
-              initialData: PullListLoadingstate(),
-              builder: (context, snapshot) {
-                if (snapshot.data is PullListLoadingstate) {
-                  return LoadingWidget();
-                }
-                if (snapshot.data is PullListDataState) {
-                  return _buildContent(context, snapshot.data as PullListDataState);
-                }
-              },
+    return BlocBuilder(
+      bloc: _bloc,
+      builder: (BuildContext context, PullListState state) {
+
+        var isLoading = state is PullListLoadingState;
+
+        return Scaffold(
+            appBar: AppBar(
+                title: Text(widget.gitRepo.title),
+                automaticallyImplyLeading: true,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context),
+                )
+            ),
+            drawer: Drawer(),
+            body: Theme(
+                data: Theme.of(context),
+                child: isLoading ? LoadingWidget() : _buildContent(context, state as PullListDataState)
             )
-          )
-        )
+        );
+      }
     );
   }
 
@@ -86,8 +83,10 @@ class _RepositoryDetailPage extends State<RepositoryDetailPage> {
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification scrollInfo) {
         if (!_bloc.isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-          _bloc.loadPRList();
+          _bloc.dispatch(LoadPullListEvent());
+          return true;
         }
+        return false;
       },
       child: ListView.separated(
         itemCount: data.list.length + 1,

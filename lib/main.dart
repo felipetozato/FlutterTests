@@ -1,14 +1,22 @@
+import 'package:avocado_test/bloc/SimpleBlocDelegate.dart';
 import 'package:avocado_test/repositoryList/DartGitRepoRepository.dart';
 import 'package:avocado_test/repositoryList/RepositoryListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:bloc/bloc.dart';
 
-void main() => runApp(MyApp());
+
+
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Github Demo',
       theme: ThemeData(
