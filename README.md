@@ -1,4 +1,4 @@
-# avocado_test
+# GitHub Client with flutter
 
 A simple github client showing dart projects
 
