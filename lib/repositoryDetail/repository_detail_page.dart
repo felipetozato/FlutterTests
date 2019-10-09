@@ -27,6 +27,7 @@ class RepositoryDetailPage extends StatefulWidget {
 class _RepositoryDetailPage extends State<RepositoryDetailPage> {
 
   RepositoryDetailBloc _bloc;
+  bool _isLoading = false;
 
   final DateFormat dateFormat = DateFormat("hh:mm dd/MM/yyyy");
 
@@ -71,7 +72,8 @@ class _RepositoryDetailPage extends State<RepositoryDetailPage> {
             drawer: Drawer(),
             body: Theme(
                 data: Theme.of(context),
-                child: isLoading ? LoadingWidget() : _buildContent(context, state as PullListDataState)
+                child: isLoading ? LoadingWidget() :
+                _buildContent(context, state as PullListDataState)
             )
         );
       }
@@ -80,9 +82,11 @@ class _RepositoryDetailPage extends State<RepositoryDetailPage> {
 
   Widget _buildContent(BuildContext context, PullListDataState data) {
     var list = data.list;
+    _isLoading = false;
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification scrollInfo) {
-        if (!_bloc.isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+        if (!_isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+          _isLoading = true;
           _bloc.dispatch(LoadPullListEvent());
           return true;
         }

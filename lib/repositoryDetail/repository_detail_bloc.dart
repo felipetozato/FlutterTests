@@ -8,13 +8,11 @@ import 'package:meta/meta.dart';
 
 class RepositoryDetailBloc extends Bloc<PullListEvents, PullListState> {
 
+  //TODO maybe to some DI with library with automatic parsing. I haven't looked how DI can be done in dart.
   RepositoryDetailBloc({@required this.repository, this.gitRepo});
 
   final PRRepository repository;
   final GitRepo gitRepo;
-  bool isLoading = false;
-
-  PullListDataState _currentState = PullListState._data([], 0);
 
   @override
   PullListState get initialState => PullListState._loading();
@@ -22,20 +20,20 @@ class RepositoryDetailBloc extends Bloc<PullListEvents, PullListState> {
   @override
   Stream<PullListState> mapEventToState(PullListEvents event) async* {
     if (event is LoadPullListEvent) {
-      yield* _loadPRList(_currentState);
+      var currentDataState = this.currentState is PullListDataState ?
+        (this.currentState as PullListDataState) : PullListDataState.initial();
+      yield* _loadPRList(currentDataState);
     }
   }
 
   Stream<PullListState> _loadPRList(PullListDataState currentState) async* {
-    isLoading = true;
     final newPage = currentState.page + 1;
     final pullList = await repository.getPullRequests(gitRepo, newPage);
     if (pullList != null) {
-      yield PullListState._data(pullList, newPage);
+      yield PullListState._data(currentState.list + pullList, newPage);
     } else {
       yield PullListState._error();
     }
-    isLoading = false;
   }
 
 }
@@ -53,6 +51,8 @@ class PullListDataState extends PullListState {
   PullListDataState(this.list, this.page);
   final List<PullRequest> list;
   final int page;
+
+  factory PullListDataState.initial() => PullListDataState([], 0);
 }
 
 class PullListError extends PullListState {

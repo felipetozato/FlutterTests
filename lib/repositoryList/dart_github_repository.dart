@@ -8,7 +8,7 @@ class DartGithubRepository {
 
   final http.Client client;
 
-  final String _url = "https://api.github.com/search/repositories?q=language:Dart&sort=stars&page=";
+  final String _url = "https://api.github.com/search/repositories?q=language:Dart&sort=stars&per_page=15&page=";
 
   Future<List<GitRepo>> getRepos(int page) async {
     try {

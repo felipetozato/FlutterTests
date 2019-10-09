@@ -11,7 +11,7 @@ class PRRepository {
 
   Future<List<PullRequest>> getPullRequests(GitRepo repository, int page) async {
     try {
-      var url = repository.pullRequestsUrl.replaceAll('{/number}', '') + "?page=$page";
+      var url = repository.pullRequestsUrl.replaceAll('{/number}', '') + "?page=$page&per_page=15";
       var res = await http.get(url);
       if (res.statusCode == 200) {
         var jsonResponse = convert.jsonDecode(res.body) as List;
