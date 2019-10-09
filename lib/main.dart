@@ -1,16 +1,35 @@
-import 'package:avocado_test/repositoryList/DartGitRepoRepository.dart';
-import 'package:avocado_test/repositoryList/RepositoryListPage.dart';
+import 'package:avocado_test/bloc/simple_bloc_delegate.dart';
+import 'package:avocado_test/repositoryList/dart_github_repository.dart';
+import 'package:avocado_test/repositoryList/dart_github_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:bloc/bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'app_localization.dart';
 
-void main() => runApp(MyApp());
+
+
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Github Demo',
+      localizationsDelegates: [
+        AppLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale("en"),
+        const Locale("es"),
+        const Locale("pt")
+      ],
+      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context).title,
       theme: ThemeData(
         textTheme: TextTheme(
           title: _titleTextStyle(),
@@ -22,7 +41,7 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: RepositoryListPage(repository: DartGitReporepository(client: http.Client())),
+      home: DartGithubListPage(repository: DartGithubRepository(client: http.Client())),
     );
   }
 }

@@ -1,5 +1,5 @@
-import 'package:avocado_test/model/GitRepo.dart';
-import 'package:avocado_test/model/PullRequest.dart';
+import 'package:avocado_test/model/git_repo.dart';
+import 'package:avocado_test/model/pull_request.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -11,7 +11,7 @@ class PRRepository {
 
   Future<List<PullRequest>> getPullRequests(GitRepo repository, int page) async {
     try {
-      var url = repository.pullRequestsUrl.replaceAll('{/number}', '') + "?page=$page";
+      var url = repository.pullRequestsUrl.replaceAll('{/number}', '') + "?page=$page&per_page=15";
       var res = await http.get(url);
       if (res.statusCode == 200) {
         var jsonResponse = convert.jsonDecode(res.body) as List;

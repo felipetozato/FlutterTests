@@ -1,26 +1,29 @@
-import 'package:avocado_test/commons/widgets/CircularImageWidget.dart';
-import 'package:avocado_test/commons/widgets/LoadingWidget.dart';
-import 'package:avocado_test/model/GitRepo.dart';
-import 'package:avocado_test/model/User.dart';
-import 'package:avocado_test/repositoryDetail/RepositoryDetailPage.dart';
-import 'package:avocado_test/repositoryList/DartGitRepoRepository.dart';
-import 'package:avocado_test/repositoryList/RepositoryListBloc.dart';
+import 'package:avocado_test/app_localization.dart';
+import 'package:avocado_test/commons/widgets/circular_image_widget.dart';
+import 'package:avocado_test/commons/widgets/loading_widgety.dart';
+import 'package:avocado_test/model/git_repo.dart';
+import 'package:avocado_test/repository_detail/repository_detail_page.dart';
+import 'package:avocado_test/repositoryList/dart_github_repository.dart';
+import 'package:avocado_test/repositoryList/dart_github_list_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RepositoryListPage extends StatefulWidget {
+class DartGithubListPage extends StatefulWidget {
 
-  RepositoryListPage({Key key, this.repository}) : super(key: key);
+  DartGithubListPage({Key key, this.repository}) : super(key: key);
 
-  final DartGitReporepository repository;
+  final DartGithubRepository repository;
 
   @override
   State<StatefulWidget> createState() => _RepositoryListPage();
 }
 
-class _RepositoryListPage extends State<RepositoryListPage> {
+class _RepositoryListPage extends State<DartGithubListPage> {
 
-  RepositoryListBloc _bloc;
+  DartGithubListBloc _bloc;
+
+  bool _isLoading = false;
 
   void _onItemListClick(GitRepo repository) {
     Navigator.push(
@@ -31,8 +34,8 @@ class _RepositoryListPage extends State<RepositoryListPage> {
 
   @override
   void initState() {
-    _bloc = RepositoryListBloc(widget.repository);
-    _bloc.loadGitRepositories();
+    _bloc = DartGithubListBloc(repository: widget.repository);
+    _bloc.dispatch(LoadRepositoryListEvent());
     super.initState();
   }
 
@@ -44,38 +47,37 @@ class _RepositoryListPage extends State<RepositoryListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Github Dart Repo'), //TODO Localize
-        automaticallyImplyLeading: true,
-      ),
-      drawer: Drawer(),
-      body: Theme(
-        data: Theme.of(context),
-        //child: _listView(context),
-        child: SafeArea(
-          child: StreamBuilder<GitRepoState>(stream: _bloc.repoList,
-            initialData: GitRepoLoadingstate(),
-            builder: (context, snapshot) {
-              if (snapshot.data is GitRepoLoadingstate) {
-                return LoadingWidget();
-              }
-              if (snapshot.data is GitRepoDataState) {
-                return _buildContent(context, (snapshot.data as GitRepoDataState).list);
-              }
-            }
-          )
-        )
-      )
+    return BlocBuilder(
+      bloc: _bloc,
+      builder: (BuildContext context, RepositoryListState state) {
+        var isLoading = state is RepositoryListLoadingState;
+
+        return Scaffold(
+            appBar: AppBar(
+              title: Text(AppLocalizations.of(context).title),
+              automaticallyImplyLeading: true,
+            ),
+            drawer: Drawer(),
+            body: Theme(
+                data: Theme.of(context),
+                //child: _listView(context),
+                child: isLoading ? LoadingWidget() :
+                _buildContent(context, (state as RepositoryListDataState).list)
+            )
+        );
+      }
     );
   }
 
   Widget _buildContent(BuildContext context, List<GitRepo> repoList) {
+    _isLoading = false;
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification scrollInfo) {
-        if (!_bloc.isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-          _bloc.loadGitRepositories();
+        if (!_isLoading && scrollInfo.metrics.pixels > scrollInfo.metrics.maxScrollExtent) {
+          _isLoading = true;
+          _bloc.dispatch(LoadRepositoryListEvent());
         }
+        return true;
       },
       child: ListView.separated(
         itemCount: repoList.length,

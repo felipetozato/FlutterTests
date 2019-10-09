@@ -1,14 +1,14 @@
-import 'package:avocado_test/model/GitRepo.dart';
+import 'package:avocado_test/model/git_repo.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class DartGitReporepository {
+class DartGithubRepository {
 
-  DartGitReporepository({this.client});
+  DartGithubRepository({this.client});
 
   final http.Client client;
 
-  final String _url = "https://api.github.com/search/repositories?q=language:Dart&sort=stars&page=";
+  final String _url = "https://api.github.com/search/repositories?q=language:Dart&sort=stars&per_page=15&page=";
 
   Future<List<GitRepo>> getRepos(int page) async {
     try {
