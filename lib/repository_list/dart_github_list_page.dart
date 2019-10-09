@@ -3,17 +3,14 @@ import 'package:avocado_test/commons/widgets/circular_image_widget.dart';
 import 'package:avocado_test/commons/widgets/loading_widgety.dart';
 import 'package:avocado_test/model/git_repo.dart';
 import 'package:avocado_test/repository_detail/repository_detail_page.dart';
-import 'package:avocado_test/repositoryList/dart_github_repository.dart';
-import 'package:avocado_test/repositoryList/dart_github_list_bloc.dart';
+import 'package:avocado_test/repository_list/dart_github_list_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DartGithubListPage extends StatefulWidget {
 
-  DartGithubListPage({Key key, this.repository}) : super(key: key);
-
-  final DartGithubRepository repository;
+  DartGithubListPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _RepositoryListPage();
@@ -34,7 +31,7 @@ class _RepositoryListPage extends State<DartGithubListPage> {
 
   @override
   void initState() {
-    _bloc = DartGithubListBloc(repository: widget.repository);
+    _bloc = DartGithubListBloc();
     _bloc.dispatch(LoadRepositoryListEvent());
     super.initState();
   }

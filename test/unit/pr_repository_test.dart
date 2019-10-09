@@ -20,7 +20,7 @@ void main() {
 
     var prList = await repository.getPullRequests(repo, 1);
 
-    expect(prList.length, 30);
+    expect(prList.length, 15);
     expect(prList[0].title, isNotEmpty);
     expect(prList[0].body, isNotEmpty);
     expect(prList[0].createdAt, isNotNull);

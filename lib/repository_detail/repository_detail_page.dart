@@ -3,23 +3,19 @@ import 'package:avocado_test/commons/widgets/circular_image_widget.dart';
 import 'package:avocado_test/commons/widgets/loading_widgety.dart';
 import 'package:avocado_test/model/pull_request.dart';
 import 'package:avocado_test/model/git_repo.dart';
-import 'package:avocado_test/repository_detail/pr_repository.dart';
 import 'package:avocado_test/repository_detail/repository_detail_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
+
 
 class RepositoryDetailPage extends StatefulWidget {
 
   RepositoryDetailPage({Key key, this.gitRepo}) : super(key: key);
 
   final GitRepo gitRepo;
-
-  //TODO DI this kind of thing. Better if directly to the Bloc class. Not sure if I will have time to mess with DI
-  final PRRepository prRepository = PRRepository(client: http.Client());
 
   @override
   State<StatefulWidget> createState() => _RepositoryDetailPage();
@@ -42,7 +38,7 @@ class _RepositoryDetailPage extends State<RepositoryDetailPage> {
 
   @override
   void initState() {
-    _bloc = RepositoryDetailBloc(repository: widget.prRepository, gitRepo: widget.gitRepo);
+    _bloc = RepositoryDetailBloc(gitRepo: widget.gitRepo);
     _bloc.dispatch(LoadPullListEvent());
     super.initState();
   }

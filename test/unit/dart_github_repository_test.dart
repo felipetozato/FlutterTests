@@ -1,5 +1,5 @@
 import 'package:avocado_test/model/user.dart';
-import 'package:avocado_test/repositoryList/dart_github_repository.dart';
+import 'package:avocado_test/repository_list/dart_github_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,7 +9,7 @@ void main() {
   //which transform this into a integration test...
   final http.Client client = http.Client();
 
-  var repository = DartGithubRepository(client: client);
+  var repository = DartGithubRepository(client);
 
   test('Test getRepos, return valid result', () async {
     var repos = await repository.getRepos(1);

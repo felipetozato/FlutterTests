@@ -1,6 +1,6 @@
 import 'package:avocado_test/bloc/simple_bloc_delegate.dart';
-import 'package:avocado_test/repositoryList/dart_github_repository.dart';
-import 'package:avocado_test/repositoryList/dart_github_list_page.dart';
+import 'package:avocado_test/repository_list/dart_github_repository.dart';
+import 'package:avocado_test/repository_list/dart_github_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: DartGithubListPage(repository: DartGithubRepository(client: http.Client())),
+      home: DartGithubListPage(),
     );
   }
 }

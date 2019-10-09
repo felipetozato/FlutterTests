@@ -5,13 +5,14 @@ import 'package:avocado_test/model/pull_request.dart';
 import 'package:avocado_test/repository_detail/pr_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
 
 class RepositoryDetailBloc extends Bloc<PullListEvents, PullListState> {
 
-  //TODO maybe to some DI with library with automatic parsing. I haven't looked how DI can be done in dart.
-  RepositoryDetailBloc({@required this.repository, this.gitRepo});
+  RepositoryDetailBloc({this.gitRepo});
 
-  final PRRepository repository;
+  //TODO DI this kind of thing. Better if directly to the Bloc class. Not sure if I will have time to mess with DI
+  final PRRepository repository = PRRepository(client: http.Client());
   final GitRepo gitRepo;
 
   @override

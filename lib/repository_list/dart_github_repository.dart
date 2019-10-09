@@ -4,7 +4,7 @@ import 'dart:convert' as convert;
 
 class DartGithubRepository {
 
-  DartGithubRepository({this.client});
+  DartGithubRepository(this.client);
 
   final http.Client client;
 

@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:avocado_test/model/git_repo.dart';
-import 'package:avocado_test/repositoryList/dart_github_repository.dart';
+import 'package:avocado_test/repository_list/dart_github_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
 
 class DartGithubListBloc extends Bloc<RepositoryListEvent, RepositoryListState> {
+  DartGithubListBloc();
 
   //TODO maybe to some DI with library with automatic parsing. I haven't looked how DI can be done in dart.
-  DartGithubListBloc({ @required this.repository });
-
-  final DartGithubRepository repository;
+  final DartGithubRepository repository = DartGithubRepository(http.Client());
 
   @override
   RepositoryListState get initialState => RepositoryListState._loading();
