@@ -1,9 +1,9 @@
-import 'package:avocado_test/commons/widgets/CircularImageWidget.dart';
-import 'package:avocado_test/commons/widgets/LoadingWidget.dart';
-import 'package:avocado_test/model/PullRequest.dart';
-import 'package:avocado_test/model/GitRepo.dart';
-import 'package:avocado_test/repositoryDetail/PRRepository.dart';
-import 'package:avocado_test/repositoryDetail/RepositoryDetailBloc.dart';
+import 'package:avocado_test/commons/widgets/circular_image_widget.dart';
+import 'package:avocado_test/commons/widgets/loading_widgety.dart';
+import 'package:avocado_test/model/pull_request.dart';
+import 'package:avocado_test/model/git_repo.dart';
+import 'package:avocado_test/repositoryDetail/pr_repository.dart';
+import 'package:avocado_test/repositoryDetail/repository_detail_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

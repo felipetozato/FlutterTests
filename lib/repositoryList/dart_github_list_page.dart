@@ -1,26 +1,26 @@
-import 'package:avocado_test/commons/widgets/CircularImageWidget.dart';
-import 'package:avocado_test/commons/widgets/LoadingWidget.dart';
-import 'package:avocado_test/model/GitRepo.dart';
-import 'package:avocado_test/model/User.dart';
-import 'package:avocado_test/repositoryDetail/RepositoryDetailPage.dart';
-import 'package:avocado_test/repositoryList/DartGitRepoRepository.dart';
-import 'package:avocado_test/repositoryList/RepositoryListBloc.dart';
+import 'package:avocado_test/commons/widgets/circular_image_widget.dart';
+import 'package:avocado_test/commons/widgets/loading_widgety.dart';
+import 'package:avocado_test/model/git_repo.dart';
+import 'package:avocado_test/model/user.dart';
+import 'package:avocado_test/repositoryDetail/repository_detail_page.dart';
+import 'package:avocado_test/repositoryList/dart_github_repository.dart';
+import 'package:avocado_test/repositoryList/dar_github_list_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class RepositoryListPage extends StatefulWidget {
+class DartGithubListPage extends StatefulWidget {
 
-  RepositoryListPage({Key key, this.repository}) : super(key: key);
+  DartGithubListPage({Key key, this.repository}) : super(key: key);
 
-  final DartGitReporepository repository;
+  final DartGithubRepository repository;
 
   @override
   State<StatefulWidget> createState() => _RepositoryListPage();
 }
 
-class _RepositoryListPage extends State<RepositoryListPage> {
+class _RepositoryListPage extends State<DartGithubListPage> {
 
-  RepositoryListBloc _bloc;
+  DartGithubListBloc _bloc;
 
   void _onItemListClick(GitRepo repository) {
     Navigator.push(
@@ -31,7 +31,7 @@ class _RepositoryListPage extends State<RepositoryListPage> {
 
   @override
   void initState() {
-    _bloc = RepositoryListBloc(widget.repository);
+    _bloc = DartGithubListBloc(widget.repository);
     _bloc.loadGitRepositories();
     super.initState();
   }

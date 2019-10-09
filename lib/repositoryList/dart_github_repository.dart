@@ -1,10 +1,10 @@
-import 'package:avocado_test/model/GitRepo.dart';
+import 'package:avocado_test/model/git_repo.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class DartGitReporepository {
+class DartGithubRepository {
 
-  DartGitReporepository({this.client});
+  DartGithubRepository({this.client});
 
   final http.Client client;
 

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:avocado_test/model/GitRepo.dart';
-import 'package:avocado_test/model/PullRequest.dart';
-import 'package:avocado_test/repositoryDetail/PRRepository.dart';
+import 'package:avocado_test/model/git_repo.dart';
+import 'package:avocado_test/model/pull_request.dart';
+import 'package:avocado_test/repositoryDetail/pr_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
