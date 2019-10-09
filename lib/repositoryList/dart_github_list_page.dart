@@ -1,7 +1,8 @@
+import 'package:avocado_test/app_localization.dart';
 import 'package:avocado_test/commons/widgets/circular_image_widget.dart';
 import 'package:avocado_test/commons/widgets/loading_widgety.dart';
 import 'package:avocado_test/model/git_repo.dart';
-import 'package:avocado_test/repositoryDetail/repository_detail_page.dart';
+import 'package:avocado_test/repository_detail/repository_detail_page.dart';
 import 'package:avocado_test/repositoryList/dart_github_repository.dart';
 import 'package:avocado_test/repositoryList/dart_github_list_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,7 +54,7 @@ class _RepositoryListPage extends State<DartGithubListPage> {
 
         return Scaffold(
             appBar: AppBar(
-              title: Text('Github Dart Repo'), //TODO Localize
+              title: Text(AppLocalizations.of(context).title),
               automaticallyImplyLeading: true,
             ),
             drawer: Drawer(),

@@ -1,6 +1,6 @@
 import 'package:avocado_test/model/git_repo.dart';
 import 'package:avocado_test/model/user.dart';
-import 'package:avocado_test/repositoryDetail/pr_repository.dart';
+import 'package:avocado_test/repository_detail/pr_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 

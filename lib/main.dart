@@ -4,6 +4,8 @@ import 'package:avocado_test/repositoryList/dart_github_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'app_localization.dart';
 
 
 
@@ -16,9 +18,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-      title: 'Github Demo',
+      localizationsDelegates: [
+        AppLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale("en"),
+        const Locale("es"),
+        const Locale("pt")
+      ],
+      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context).title,
       theme: ThemeData(
         textTheme: TextTheme(
           title: _titleTextStyle(),

@@ -1,0 +1,14 @@
+{
+  "@@last_modified": "2019-10-08T23:30:17.519436",
+  "title": "Repos de Dart",
+  "@title": {
+    "description": "Um cliente simples do github",
+    "type": "text",
+    "placeholders": {}
+  },
+  "open": "Abertos",
+  "@open": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

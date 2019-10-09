@@ -1,9 +1,10 @@
+import 'package:avocado_test/app_localization.dart';
 import 'package:avocado_test/commons/widgets/circular_image_widget.dart';
 import 'package:avocado_test/commons/widgets/loading_widgety.dart';
 import 'package:avocado_test/model/pull_request.dart';
 import 'package:avocado_test/model/git_repo.dart';
-import 'package:avocado_test/repositoryDetail/pr_repository.dart';
-import 'package:avocado_test/repositoryDetail/repository_detail_bloc.dart';
+import 'package:avocado_test/repository_detail/pr_repository.dart';
+import 'package:avocado_test/repository_detail/repository_detail_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,7 +169,7 @@ class _RepositoryDetailPage extends State<RepositoryDetailPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           //TODO internationalize strings
-          Text("$opened opened",
+          Text("$opened ${AppLocalizations.of(context).open}",
             style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.normal)
           )
       ]),

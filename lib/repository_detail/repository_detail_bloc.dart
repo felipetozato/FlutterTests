@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:avocado_test/model/git_repo.dart';
 import 'package:avocado_test/model/pull_request.dart';
-import 'package:avocado_test/repositoryDetail/pr_repository.dart';
+import 'package:avocado_test/repository_detail/pr_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
