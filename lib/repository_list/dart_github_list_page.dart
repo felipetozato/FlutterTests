@@ -70,7 +70,7 @@ class _RepositoryListPage extends State<DartGithubListPage> {
     _isLoading = false;
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification scrollInfo) {
-        if (!_isLoading && scrollInfo.metrics.pixels > scrollInfo.metrics.maxScrollExtent) {
+        if (!_isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
           _isLoading = true;
           _bloc.dispatch(LoadRepositoryListEvent());
         }
